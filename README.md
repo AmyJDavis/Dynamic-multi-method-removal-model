@@ -1,4 +1,4 @@
-#Guide to use a dynamic multi-method removal model 
+# Guide to use a dynamic multi-method removal model 
 
 This document provides guidance for the implementation of the dynamic multi-method removal model described in “An efficient method of evaluating multiple concurrent management actions on invasive populations” by Amy J. Davis, Randy Farrar, Brad Jump, Parker Hall, Travis Guerrant, Kim M. Pepin.  Three R scrips are provided. 
 
@@ -15,6 +15,7 @@ The dynamic multi-method removal model is designed to estimate population abunda
 4.	Take = The number of individuals removed
 5.	Effort = The effort employed in this removal event
 6.	Site = A number designated the site of the removal event
+
 The units for the effort will depend on the method. In our example, we used hours in the helicopter, number of nights trapping, and number of days when ground shooting occurred as our effort for those three removal methods. The Site number is to allow for the joint estimation across more than one area in which abundance is desired.  There may only be one Site, in which case a column of ones in the data is needed.  However, if the study area is very large, it may been to be sectioned into smaller areas to reduce bias. In that case, choose the Sites based on a priori knowledge of the study area or use a spatial clustering algorithm to group the removal locations.  
 In addition to the data needs described above, to use the code there are two other a priori user inputs needed.  For each removal effort, there needs to be some a prior information about the maximum area of impact for a single unit of effort.  In the case described in the associated article, we used feral swine (Sus scrofa), and used three removal methods: aerial gunning, trapping, and ground shooting.  Therefore, using prior literature or expert opinion, we set the maximum area impacted by an hour in a helicopter, one trap night, or one day of ground shooting.  For the aerial gunning and ground shooting we used expert opinion to inform the area of impact.  For the trapping we used a buffer around the traps (assuming a circle) with a radius based on work by (McRae et al. 2020). The area information needs to be provided on Line 48 in the RemDataProcessing.R code.  The area of each Site needs to be provided (line 45 of RemDataProcessing.R code). This area should include a buffer accounting for the potential for some removal efforts to be on the edge of the property or region of interest.  We used the same buffer that we used around the trap.  However, the approach can be modified for many other species and the area of impact will depend on the species and removal methods used. 
 

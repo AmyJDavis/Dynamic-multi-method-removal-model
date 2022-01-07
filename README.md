@@ -37,3 +37,11 @@ To use this code with your own data, you may need to make some changes (includin
 This model outputs posterior results for abundance (by Site and Month; nt.save), growth rate (by Site and Month; lambda.save), removal rate (by removal method; p.save), and beta estimates for growth rate (depending on the number of covariates examined; beta.save).  The outputs include the entire chains.  To calculate posterior means and credible intervals a burn in should be used, and thinning can be used if desired.  
 The model produced diagnostic plots for each abundance, growth rate, removal rate, and beta estimate.  These include trace plots (using all of the data) and posterior distribution plots assuming a burn-in of 50%. The model also produces a plot of the posterior means of the abundance estimates by Site and by Month. 
 Code at the end of the RemDataProcessing.R script calculates the posterior means and 95% credible intervals for abundance, growth rate, removal rate, and beta estimates.  
+
+![alt text](https://github.com/AmyJDavis/Dynamic-multi-method-removal-model/blob/main/ModelFlow.jpg?raw=true)
+Figure 1. Diagram showing the model input elements (data, informed parameter, and model priors) and the model outputs.  The notation is described in the associated article. 
+
+## Literature Cited
+McRae, J. E., P. E. Schlichting, N. P. Snow, A. J. Davis, K. C. VerCauteren, J. C. Kilgo, D. A. Keiter, J. C. Beasley, and K. M. Pepin. 2020. Factors Affecting Bait Site Visitation: Area of Influence of Baits. Wildlife Society Bulletin 44:362-371.
+
+

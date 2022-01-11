@@ -331,29 +331,6 @@ MultNom.removal.multmeth.lambda.mcmc<-function(ymat,gbe,gtypes,capnames,Areaper,
   pop.mean=apply(nt.save[n.burn:n.mcmc,],2,mean)
   pop.quants=apply(nt.save[n.burn:n.mcmc,],2,function(x) quantile(x,probs=c(0.025,0.975),na.rm=TRUE))
   
-  if(pvals==1){
-    p.mean=mean(psave[n.burn:n.mcmc])
-    p.quants=quantile(psave[n.burn:n.mcmc],probs=c(0.025,0.975),na.rm=TRUE)
-  }else{
-    p.mean=colMeans(psave[n.burn:n.mcmc,])
-    p.quants=apply(psave[n.burn:n.mcmc,],2,function(x)quantile(x,probs=c(0.025,0.975),na.rm=TRUE))
-    
-  }
-  
-  lamd.mean=apply(lamd.save[n.burn:n.mcmc,],2,mean)
-  lamd.quants=apply(lamd.save[n.burn:n.mcmc,],2,function(x)quantile(x,c(0.025,0.975)))
-  
-  if(b.num>1){
-    beta.mean=colMeans(betaDsave[n.burn:n.mcmc,])
-    beta.quants=apply(betaDsave[n.burn:n.mcmc,],2,function(x)quantile(x,c(0.025,0.975)))
-  }else{
-    beta.mean=mean(betaDsave[n.burn:n.mcmc])
-    beta.quants=quantile(betaDsave[n.burn:n.mcmc],c(0.025,0.975))
-  }
-
-  
-  par(mfrow=c(1,1),mar=c(4,5,1,1)+0.1,family="serif")  
-  barplot2(pop.mean,plot.ci=TRUE,ci.l=pop.quants[1,],ci.u=pop.quants[2,],main="Population size estimates by site",ylab="Abundance")
   
   dmax=max(pop.quants)
   dmin=min(pop.quants)
@@ -365,7 +342,7 @@ MultNom.removal.multmeth.lambda.mcmc<-function(ymat,gbe,gtypes,capnames,Areaper,
   ####  Write Output 
   ####
   
-  list(nt.save=nt.save,lamd.save=lamd.save,psave=psave,betaDsave=betaDsave)
+  list(nt.save=nt.save,lambda.save=lamd.save,p.save=psave,beta.save=betaDsave)
   
   
   

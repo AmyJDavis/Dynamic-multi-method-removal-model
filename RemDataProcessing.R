@@ -12,7 +12,7 @@
 library(reshape2)
 library(splines)
 source("remfuncs.R")
-source('RemMultNomMultMethLambdaMCMC.R')
+source('RemMultiMethLambdaMCMC.R')
 
 ### Read in data
 ## Should have 7 columns
@@ -99,7 +99,7 @@ pstart=c(0.05,0.2,0.05)
 n.mcmc=1000
 
 
-remres=MultNom.removal.multmeth.lambda.mcmc(ymat,gbea,gtypes,capnames,Areaper,Xd,pstart,sigla,siglb,sigBa,sigBb,
+remres=MultNom.removal.multmeth.lambda.mcmc(ymat,gbe,gtypes,capnames,Areaper,Xd,pstart,sigla,siglb,sigBa,sigBb,
                                             sigPa,sigPb,n.tune,lam.tune,p.tune,n.mcmc)
 
 

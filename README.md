@@ -30,7 +30,7 @@ To use this code with your own data, you may need to make some changes (includin
 7.	Modify the detdf data frame on line 48 to give the methods used and the maximum area impacted by one unit of effort for each method.  Keep the last option as Method = “0” and Area = 0, this will be when no removal occurs
 8.	Change GPS to TRUE if latitude/longitude information is available and set it to FALSE if not on Line 81. If you want to see the area of impact buffers when you have lat/long data, set plotareas to TRUE.
 9.	Set your own design matrix for the linear relationship with growth rate on Line 85.  Or use the default of allowing growth rate to vary across time. 
-10.	Lines 88-98 are starting values, prior values, and tuning values for the model.  These may need to be changed to fit your model better.
+10.	Lines 88-98 are starting values, prior values, and tuning values for the model.  These may need to be changed to fit your model better. For example the number of starting values for 'pstart' needs to match the number of removal methods in your data. These values should represent your best guess at the removal rate for one unit of that method (e.g., removal rate for one hour in a helicopter or one night of trapping). 
 11.	Line 99 set the number of MCMC iterations you want to use.  Keep in mind this code takes a while to run. You might start with 1,000 just to make sure things run smoothly, then based on how long that took and the computing power of your machine, change this to fit your situation. I would recommend 10,000 to 20,000 at least.  
 12.	Lines 102-103 run the MCMC code with your inputs
 

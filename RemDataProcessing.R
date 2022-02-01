@@ -96,7 +96,7 @@ sigbeta=1
 sigPa=1
 sigPb=1
 pstart=c(0.05,0.2,0.05)
-n.mcmc=1000
+n.mcmc=10000
 
 
 remres=MultNom.removal.multmeth.lambda.mcmc(ymat,gbe,gtypes,capnames,Areaper,Xd,pstart,sigla,siglb,sigBa,sigBb,

@@ -28,3 +28,4 @@ vignettes/*.pdf
 .Renviron
 Dynamic-multi-method-removal-model.Rproj
 RemDataProcessing_ABF.R
+README.html

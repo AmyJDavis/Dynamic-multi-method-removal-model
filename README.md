@@ -9,6 +9,7 @@ This document provides guidance for the implementation of the dynamic multi-meth
 
 ## Data needs:
 The dynamic multi-method removal model is designed to estimate population abundance, population removal rate, and population growth rate using only management removal data. Since management removal often comes from a variety of removal methods this approach allows for and uses all removal methods and estimates removal rates for each method. The data needed for this analysis are often routinely collected as a part of management removal activities. The data needed are:
+
 1.	Methods = The type of removal activity
 2.	Date = The date of the removal activity
 3.	The location of the removal activity (column for each Latitude/Longitude) if available
@@ -21,6 +22,7 @@ In addition to the data needs described above, to use the code there are two oth
 
 ## Steps to run the code
 To use this code with your own data, you may need to make some changes (including the ones listed above in the data needs section).  The following steps take you through how to modify RemDataProcessing.R to work with your data. This code was created under R version 4.1.2. 
+
 1.	Save all three scrips in the same working directory (or modify the location of the remfuncs.R and RemMultNomMultMethLambdaMCMC.R on Lines 14 and 15).
 2.	Ensure you have all of the packages loaded on your machine. 
 3.	Format your data as described above and load it on Line 26. 
@@ -30,7 +32,13 @@ To use this code with your own data, you may need to make some changes (includin
 7.	Modify the detdf data frame on line 48 to give the methods used and the maximum area impacted by one unit of effort for each method.  Keep the last option as Method = “0” and Area = 0, this will be when no removal occurs
 8.	Change GPS to TRUE if latitude/longitude information is available and set it to FALSE if not on Line 81. If you want to see the area of impact buffers when you have lat/long data, set plotareas to TRUE.
 9.	Set your own design matrix for the linear relationship with growth rate on Line 85.  Or use the default of allowing growth rate to vary across time. 
-10.	Lines 88-98 are starting values, prior values, and tuning values for the model.  These may need to be changed to fit your model better. For example the number of starting values for 'pstart' needs to match the number of removal methods in your data. These values should represent your best guess at the removal rate for one unit of that method (e.g., removal rate for one hour in a helicopter or one night of trapping). 
+10.	Lines 88-98 are starting values, prior values, and tuning values for the model.  These may need to be changed to fit your model better.
+    a) For example the number of starting values for 'pstart' needs to match the number of removal methods in your data. These values should represent your best guess at the removal rate for one unit of that method (e.g., removal rate for one hour in a helicopter or one night of trapping). It should not matter if your estimate is far from the posterior mean, but try a few value to make sure your starting value is not influencing the results. 
+    b) If you are not familiar with Bayesian models and MCMC tuning I will not provide detailed information here, please see additional resources such as van Ravenzwaaij et al. (2018). Very simply I will say that you want to make sure the posterior distribution shows good mixing (the trace plot looks like a fuzzy caterpillar, see Fig. 1A). If the trace plot is a wandering line (Fig. 1B) you need in increase the tuning parameter. If the trace plot looks like it was drawn with an Etch A Sketch (Fig. 1C) you need to decrease the tuning parameter.
+  
+![alt text](https://github.com/AmyJDavis/Dynamic-multi-method-removal-model/blob/main/MCMC_Tuning.jpg?raw=true)
+Figure 1. Example of trace plots of posterior distributions. A) This is an example of the type of trace plot you would like to see, this shows good mixing. B) Shows poor mixing and in particular the tuning parameter is too small, the distribution is not exploring the range efficiently. C) Shows an example of poor mixing where the value is getting stuck and the tuning parameter needs to be reduced to mix better. 
+
 11.	Line 99 set the number of MCMC iterations you want to use.  Keep in mind this code takes a while to run. You might start with 1,000 just to make sure things run smoothly, then based on how long that took and the computing power of your machine, change this to fit your situation. I would recommend 10,000 to 20,000 at least.  
 12.	Lines 102-103 run the MCMC code with your inputs
 
@@ -40,8 +48,10 @@ The model produces diagnostic plots for each abundance, growth rate, removal rat
 Code at the end of the RemDataProcessing.R script calculates the posterior means and 95% credible intervals for abundance, growth rate, removal rate, and beta estimates.  
 
 ![alt text](https://github.com/AmyJDavis/Dynamic-multi-method-removal-model/blob/main/ModelFlow.jpg?raw=true)
-Figure 1. Diagram showing the model input elements (data, informed parameter, and model priors) and the model outputs.  The notation is described in the associated article. 
+Figure 2. Diagram showing the model input elements (data, informed parameter, and model priors) and the model outputs.  The notation is described in the associated article. 
 
 ## Literature Cited
 McRae, J. E., P. E. Schlichting, N. P. Snow, A. J. Davis, K. C. VerCauteren, J. C. Kilgo, D. A. Keiter, J. C. Beasley, and K. M. Pepin. 2020. Factors Affecting Bait Site Visitation: Area of Influence of Baits. Wildlife Society Bulletin 44:362-371.
+
+van Ravenzwaaij, D., P. Cassey, and S. D. Brown. 2018. A simple introduction to Markov Chain Monte–Carlo sampling. Psychonomic Bulletin & Review 25:143-154.10.3758/s13423-016-1015-8
 

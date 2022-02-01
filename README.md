@@ -33,7 +33,9 @@ To use this code with your own data, you may need to make some changes (includin
 8.	Change GPS to TRUE if latitude/longitude information is available and set it to FALSE if not on Line 81. If you want to see the area of impact buffers when you have lat/long data, set plotareas to TRUE.
 9.	Set your own design matrix for the linear relationship with growth rate on Line 85.  Or use the default of allowing growth rate to vary across time. 
 10.	Lines 88-98 are starting values, prior values, and tuning values for the model.  These may need to be changed to fit your model better.
+
     a) For example the number of starting values for 'pstart' needs to match the number of removal methods in your data. These values should represent your best guess at the removal rate for one unit of that method (e.g., removal rate for one hour in a helicopter or one night of trapping). It should not matter if your estimate is far from the posterior mean, but try a few value to make sure your starting value is not influencing the results. 
+    
     b) If you are not familiar with Bayesian models and MCMC tuning I will not provide detailed information here, please see additional resources such as van Ravenzwaaij et al. (2018). Very simply I will say that you want to make sure the posterior distribution shows good mixing (the trace plot looks like a fuzzy caterpillar, see Fig. 1A). If the trace plot is a wandering line (Fig. 1B) you need in increase the tuning parameter. If the trace plot looks like it was drawn with an Etch A Sketch (Fig. 1C) you need to decrease the tuning parameter.
   
 ![alt text](https://github.com/AmyJDavis/Dynamic-multi-method-removal-model/blob/main/MCMC_Tuning.jpg?raw=true)

@@ -30,17 +30,17 @@ rdata =read.csv("DummyData.csv")
 ###
 rdata$Date=as.POSIXct(rdata$Date,format="%m/%d/%Y %H:%M")
 
-### Create a column for the month-year number starting at the beginning of the study
-rdata$MYNum=(as.numeric(format(rdata$Date,"%m"))+(as.numeric(format(rdata$Date,"%Y"))-min(as.numeric(format(rdata$Date,"%Y"))))*12)-min(as.numeric(format(rdata$Date,"%m"))+(as.numeric(format(rdata$Date,"%Y"))-min(as.numeric(format(rdata$Date,"%Y"))))*12)+1
+### Create a column for the primary period of interest starting at the beginning of the study, must be a discrete number of months, standard is one month
+rdata$PPNum=primaryperiodsequence(PPmonths = 2,rdata$Date)
 
-### Make methods as factors and order these based on which would occur earlier in the day 
+### Make methods as factors and order these based on which would occur earlier in the secondary period (usually day) 
 rdata$Methods=factor(rdata$Methods,levels=c("Trap","Aerial","Shooting"),ordered = TRUE)
 
 ### Order the data by site then by date, then by method
 rdata=rdata[order(rdata$Site,rdata$Date,rdata$Methods),]
 
-### Get the day of the month number to represent the secondary periods
-rdata$Day=format(rdata$Date,"%d")
+### Set the secondary period (SPdays = number of days for secondary period)
+rdata$SPNum=secondaryperiod(SPdays=1,rdate=rdata$Date)
 
 ### Upload or create an area data frame giving the area for each site in km2, allow for a buffer if removal efforts on the edge of the study area
 ardf=data.frame(Site=1:3,Area=c(142.88,127.07,107.17))
@@ -53,8 +53,8 @@ capnames=detdf$Method[-dim(detdf)[1]]
 ###
 ### Processing the data for input in the MCMC model
 ###
-mptake=dcast(data = rdata[,c("Site","MYNum","Take","Methods","Day")],Site+MYNum~Day+Methods,value.var = "Take",fun.aggregate = sum)
-mpeff=dcast(data = rdata[,c("Site","MYNum","Effort","Methods","Day")],Site+MYNum~Day+Methods,value.var = "Effort",fun.aggregate = sum)
+mptake=dcast(data = rdata[,c("Site","PPNum","Take","Methods","SPNum")],Site+PPNum~SPNum+Methods,value.var = "Take",fun.aggregate = sum)
+mpeff=dcast(data = rdata[,c("Site","PPNum","Effort","Methods","SPNum")],Site+PPNum~SPNum+Methods,value.var = "Effort",fun.aggregate = sum)
 
 passes=max(apply(mptake,1,function(x)length(which(x>0))))-2
 mths=length(unique(mptake$MYNum))
@@ -78,10 +78,10 @@ areatot=ardf$Area
 sml=dim(ymat)[1]
 
 ### Use the function to calculate the area of impact, this will work with and without lat/long coordinates
-Areaper=area.of.impact.finder(rdata,gtypes,ymat,ardf,GPS=TRUE,detdf,plotareas=FALSE)
+Areaper=area.of.impact.finder2(rdata,gtypes,ymat,ardf,GPS=TRUE,detdf,plotareas=FALSE)
 
 ### Create a design matrix for the growth rate analysis, Here I used an intercept (necessary) and basis function expansion on time to allow for growth rate to vary with time
-Xdat=cbind(1,(ymat$MYNum)/max(ymat$MYNum))
+Xdat=cbind(1,(ymat$PPNum)/max(ymat$PPNum))
 Xd=cbind(1,bs(Xdat[,2],5))
 
 ### Set the model inputs
@@ -96,7 +96,7 @@ sigbeta=1
 sigPa=1
 sigPb=1
 pstart=c(0.05,0.2,0.05)
-n.mcmc=10000
+n.mcmc=1000
 
 
 remres=MultNom.removal.multmeth.lambda.mcmc(ymat,gbe,gtypes,capnames,Areaper,Xd,pstart,sigla,siglb,sigBa,sigBb,

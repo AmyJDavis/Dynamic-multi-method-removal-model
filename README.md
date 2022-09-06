@@ -1,11 +1,12 @@
 # Guide to use a dynamic multi-method removal model 
 
-This document provides guidance for the implementation of the dynamic multi-method removal model described in “An efficient method of evaluating multiple concurrent management actions on invasive populations” by Amy J. Davis, Randy Farrar, Brad Jump, Parker Hall, Travis Guerrant, Kim M. Pepin.  Three R scrips are provided. 
+This document provides guidance for the implementation of the dynamic multi-method removal model described in “An efficient method of evaluating multiple concurrent management actions on invasive populations” by Amy J. Davis, Randy Farrar, Brad Jump, Parker Hall, Travis Guerrant, Kim M. Pepin.  Four R scrips are provided. 
 
 ## Files included:
 1.	RemDataProcessing.R – Code to process removal data and to run the MCMC model
-2.	remfuncs.R – Code to determine the spatial area impacted by each removal event. This code uses latitude and longitude data if available, but will calculate area impacted based on effort generically if no location data are provided
-3.	RemMultNomMultMethLambdaMCMC.R – The dynamic multi-method removal model implemented in a custom coded hierarchical Bayesian MCMC code
+2.  RemDataProcessingFlexible.R - Code to process removal data and run the MCMC model, but allowing for more flexible primary and secondary removal periods. 
+3.	remfuncs.R – Code to determine the spatial area impacted by each removal event. This code uses latitude and longitude data if available, but will calculate area impacted based on effort generically if no location data are provided
+4.	RemMultNomMultMethLambdaMCMC.R – The dynamic multi-method removal model implemented in a custom coded hierarchical Bayesian MCMC code
 
 ## Data needs:
 The dynamic multi-method removal model is designed to estimate population abundance, population removal rate, and population growth rate using only management removal data. Since management removal often comes from a variety of removal methods this approach allows for and uses all removal methods and estimates removal rates for each method. The data needed for this analysis are often routinely collected as a part of management removal activities. The data needed are:
@@ -29,8 +30,8 @@ To use this code with your own data, you may need to make some changes (includin
 3.	Format your data as described above and load it on Line 26. 
 4.	If your date format differs from Line 31, change the input so your data loads correctly. I do not use the times in this script. 
 5.	Change Line 37 to match the removal methods in your data. Each different factor will have a separate removal rate estimate.  These should be ordered based on the order in which they would occur if events occurred on the same day. 
-6.	Modify the ardf data frame on Line 45 to be the areas of each of your Sites.
-7.	Modify the detdf data frame on line 48 to give the methods used and the maximum area impacted by one unit of effort for each method.  Keep the last option as Method = “0” and Area = 0, this will be when no removal occurs
+6.	Modify the ardf data frame on Line 46 to be the areas of each of your Sites.
+7.	Modify the detdf data frame on line 49 to give the methods used and the maximum area impacted by one unit of effort for each method.  Keep the last option as Method = “0” and Area = 0, this will be when no removal occurs
 8.	Change GPS to TRUE if latitude/longitude information is available and set it to FALSE if not on Line 81. If you want to see the area of impact buffers when you have lat/long data, set plotareas to TRUE.
 9.	Set your own design matrix for the linear relationship with growth rate on Line 85.  Or use the default of allowing growth rate to vary across time. 
 10.	Lines 88-98 are starting values, prior values, and tuning values for the model.  These may need to be changed to fit your model better.
@@ -52,6 +53,14 @@ Code at the end of the RemDataProcessing.R script calculates the posterior means
 
 ![alt text](https://github.com/AmyJDavis/Dynamic-multi-method-removal-model/blob/main/ModelFlow.jpg?raw=true)
 Figure 2. Diagram showing the model input elements (data, informed parameter, and model priors) and the model outputs.  The notation is described in the associated article. 
+
+
+## Code Modification for Flexible primary and secondary periods
+The code RemDataProcessing.R formats the data assuming the primary period is a month long and the secondary period is a day in length.  Some users may want more flexibility in the specification of the primary and secondary periods for their analyses.  The code named 'RemDataProcessingFlexible.com' is designed to allow for users to specify the primary and secondary period lengths within discrete units.  The primary periods must be X number of months long, the default is 1.  The primary periods should aim to be periods of demographic closure (i.e., no births, deaths, immigration, or emigration).  Appropriate primary period lengths will depend on the species.  The secondary period must be a discrete number of days, the default is 1 day.  The secondary period should match up with time frame in which removal events are conducted (e.g., trap nights, helicopter flights by day). If removals within a primary period are sparse, it may make sense to consider weekly removals.  
+
+The above steps can be used with this version of the code.  The two additional edits the user should include are to change the number of months for the primary period (Line 34 specify PPMonths) and the number of days for the secondary period (Line 43 specify SPdays). The rest of the code should run the same.  
+
+The modifications for the primary and secondary periods may not suit all situations. Custom coding may be needed to format your data to work with this code if these preset options for formatting are not acceptable.  
 
 ## Literature Cited
 McRae, J. E., P. E. Schlichting, N. P. Snow, A. J. Davis, K. C. VerCauteren, J. C. Kilgo, D. A. Keiter, J. C. Beasley, and K. M. Pepin. 2020. Factors Affecting Bait Site Visitation: Area of Influence of Baits. Wildlife Society Bulletin 44:362-371.

@@ -31,7 +31,7 @@ rdata =read.csv("DummyData.csv")
 rdata$Date=as.POSIXct(rdata$Date,format="%m/%d/%Y %H:%M")
 
 ### Create a column for the primary period of interest starting at the beginning of the study, must be a discrete number of months, standard is one month
-rdata$PPNum=primaryperiodsequence(PPmonths = 2,rdata$Date)
+rdata$PPNum=primaryperiodsequence(PPmonths = 1,rdata$Date)
 
 ### Make methods as factors and order these based on which would occur earlier in the secondary period (usually day) 
 rdata$Methods=factor(rdata$Methods,levels=c("Trap","Aerial","Shooting"),ordered = TRUE)

@@ -55,7 +55,7 @@ Code at the end of the RemDataProcessing.R script calculates the posterior means
 Figure 2. Diagram showing the model input elements (data, informed parameter, and model priors) and the model outputs.  The notation is described in the associated article. 
 
 
-## Code Modification for Flexible primary and secondary periods
+## Code modification for flexible primary and secondary periods
 The code RemDataProcessing.R formats the data assuming the primary period is a month long and the secondary period is a day in length.  Some users may want more flexibility in the specification of the primary and secondary periods for their analyses.  The code named 'RemDataProcessingFlexible.com' is designed to allow for users to specify the primary and secondary period lengths within discrete units.  The primary periods must be X number of months long, the default is 1.  The primary periods should aim to be periods of demographic closure (i.e., no births, deaths, immigration, or emigration).  Appropriate primary period lengths will depend on the species.  The secondary period must be a discrete number of days, the default is 1 day.  The secondary period should match up with time frame in which removal events are conducted (e.g., trap nights, helicopter flights by day). If removals within a primary period are sparse, it may make sense to consider weekly removals.  
 
 The above steps can be used with this version of the code.  The two additional edits the user should include are to change the number of months for the primary period (Line 34 specify PPMonths) and the number of days for the secondary period (Line 43 specify SPdays). The rest of the code should run the same.  

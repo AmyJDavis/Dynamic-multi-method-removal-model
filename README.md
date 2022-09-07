@@ -1,4 +1,4 @@
-# Guide to use a dynamic multi-method removal model 
+# Guide to use this dynamic multi-method removal model 
 
 This document provides guidance for the implementation of the dynamic multi-method removal model described in “An efficient method of evaluating multiple concurrent management actions on invasive populations” by Amy J. Davis, Randy Farrar, Brad Jump, Parker Hall, Travis Guerrant, Kim M. Pepin.  Four R scrips are provided. 
 

@@ -331,7 +331,7 @@ MultNom.removal.multmeth.lambda.mcmc<-function(ymat,gbe,gtypes,capnames,Areaper,
   pop.mean=apply(nt.save[n.burn:n.mcmc,],2,mean)
   pop.quants=apply(nt.save[n.burn:n.mcmc,],2,function(x) quantile(x,probs=c(0.025,0.975),na.rm=TRUE))
   
-  
+  par(mfrow=c(1,1),mar=c(4,5,1,1)+0.1)
   dmax=max(pop.quants)
   dmin=min(pop.quants)
   plot(ymat[,2],pop.mean,xlab="Time",ylab="Study Area Population Size",

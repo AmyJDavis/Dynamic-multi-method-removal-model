@@ -30,3 +30,7 @@ Dynamic-multi-method-removal-model.Rproj
 RemDataProcessing_ABF.R
 README.html
 DummyData.csv
+gbe.csv
+gtypes.csv
+ymat.csv
+HFNWR_RemovalModel.R

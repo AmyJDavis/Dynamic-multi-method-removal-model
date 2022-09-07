@@ -319,7 +319,7 @@ MultNom.removal.multmeth.lambda.mcmc<-function(ymat,gbe,gtypes,capnames,Areaper,
   plot(sigPsave,type="l",main="Trace: sigma for capture rate",ylab="sig for p",xlab="MCMC iteration")
   
   plot(density(sigBsave[n.burn:n.mcmc]),lwd=2,main="Posterior for sigma for beta")
-  plot(density(siglsave[n.burn:n.mcmc]),lwd=2,main="Posterior for sigma for density")
+  plot(density(siglsave[n.burn:n.mcmc]),lwd=2,main="Posterior for sigma for growth rate")
   plot(density(mupsave[n.burn:n.mcmc]),lwd=2,main="Posterior for mean for p")
   plot(density(sigPsave[n.burn:n.mcmc]),lwd=2,main="Posterior for sigma for p")
   

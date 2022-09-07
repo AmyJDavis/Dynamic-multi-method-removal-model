@@ -88,14 +88,14 @@ Xd=cbind(1,bs(Xdat[,2],5))
 n.tune=500
 p.tune=0.15
 lam.tune=0.08
-sigla=1
+sigla=5
 siglb=1
-sigBa=1
+sigBa=5
 sigBb=1
-sigbeta=1
-sigPa=1
+sigPa=5
 sigPb=1
 pstart=c(0.05,0.2,0.05)
+
 n.mcmc=10000
 
 
